@@ -2,7 +2,7 @@ pipeline {
     // Memberitahu Jenkins untuk menjalankan seluruh stage di dalam container Golang
     agent {
         docker {
-            image 'golang:1.23-alpine'
+            image 'golang:alpine'
         }
     }
 
