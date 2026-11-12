@@ -1,0 +1,19 @@
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    container_name: jenkins-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080" # Web Dashboard
+      - "50000:50000" # Komunikasi Agent (opsional)
+    volumes:
+      # Data persisten jenkins (jobs, plugin, configs)
+      - jenkins_data:/var/jenkins_home
+      # Berikan akses ke daemon Docker host
+      - /var/run/docker.sock:/var/run/docker.sock
+    user: "root" # Catatan: di local dev, user root memudahkan akses socket docker
+
+volumes:
+  jenkins_data:
