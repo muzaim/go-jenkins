@@ -6,10 +6,14 @@ pipeline{
     }
 
     environment{
-        APP_ENV='production'
-        DEPLOY_HOST='192.1634.131'
-        DEPLOY_USER='deployer'
-        SERVICE_PORT='8081'
+        APP_ENV_DEV='development'
+        APP_ENV_PROD='production'
+        DEPLOY_HOST_DEV='192.1634.131'
+        DEPLOY_HOST_PROD='192.1634.132'
+        DEPLOY_USER_DEV='deployer'
+        DEPLOY_USER_PROD='admin'
+        SERVICE_PORT_DEV='8081'
+        SERVICE_PORT_PROD='8082'
     }
 
     stages{
@@ -47,13 +51,30 @@ pipeline{
             }
         }
 
-        stage('Deploy SSH (Mock)'){
+        stage('Deploy to DEV Server') {
+            when {
+                branch 'dev' 
+            }
             steps {
-                echo "=== SIMULATING SSH DEPLOYMENT ==="
-                echo "Connecting to: ${env.DEPLOY_USER}@${env.DEPLOY_HOST}..."
-                echo "Deploying application environment: ${env.APP_ENV}..."
+                 echo "=== SIMULATING SSH DEPLOYMENT ==="
+                echo "Connecting to: ${env.DEPLOY_USER_DEV}@${env.DEPLOY_HOST_DEV}..."
+                echo "Deploying application environment: ${env.APP_ENV_DEV}..."
                 echo "Transferring binary bin/api to remote server..."
-                echo "Starting service on port ${env.SERVICE_PORT}..."
+                echo "Starting service on port ${env.SERVICE_PORT_DEV}..."
+                echo "Deployment completed successfully (Mock)!"
+            }
+        }
+
+         stage('Deploy to PROD Server') {
+            when {
+                branch 'main' 
+            }
+            steps {
+                  echo "=== SIMULATING SSH DEPLOYMENT ==="
+                echo "Connecting to: ${env.DEPLOY_USER_PROD}@${env.DEPLOY_HOST_PROD}..."
+                echo "Deploying application environment: ${env.APP_ENV_PROD}..."
+                echo "Transferring binary bin/api to remote server..."
+                echo "Starting service on port ${env.SERVICE_PORT_PROD}..."
                 echo "Deployment completed successfully (Mock)!"
             }
         }
