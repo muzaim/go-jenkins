@@ -6,14 +6,17 @@ pipeline {
     }
 
     environment {
-        APP_ENV_DEV      = 'development'
-        APP_ENV_PROD     = 'production'
-        DEPLOY_HOST_DEV  = '192.168.1.131'
-        DEPLOY_HOST_PROD = '192.168.1.132'
-        DEPLOY_USER_DEV  = 'deployer'
-        DEPLOY_USER_PROD = 'admin'
-        SERVICE_PORT_DEV = '8081'
-        SERVICE_PORT_PROD= '8082'
+        // Konfigurasi umum (non-rahasia)
+        APP_ENV_DEV       = 'development'
+        APP_ENV_PROD      = 'production'
+        SERVICE_PORT_DEV  = '8081'
+        SERVICE_PORT_PROD = '8082'
+
+        // Data sensitif diambil langsung dari Jenkins Credentials Store
+        DEPLOY_HOST_DEV   = credentials('deploy-host-dev')
+        DEPLOY_HOST_PROD  = credentials('deploy-host-prod')
+        DEPLOY_USER_DEV   = credentials('deploy-user-dev')
+        DEPLOY_USER_PROD  = credentials('deploy-user-prod')
     }
 
     stages {
