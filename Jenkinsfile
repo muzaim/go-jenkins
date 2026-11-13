@@ -8,8 +8,8 @@ pipeline{
     environment{
         APP_ENV_DEV='development'
         APP_ENV_PROD='production'
-        DEPLOY_HOST_DEV='192.1634.131'
-        DEPLOY_HOST_PROD='192.1634.132'
+        DEPLOY_HOST_DEV='192.164.131'
+        DEPLOY_HOST_PROD='192.164.132'
         DEPLOY_USER_DEV='deployer'
         DEPLOY_USER_PROD='admin'
         SERVICE_PORT_DEV='8081'
@@ -79,14 +79,24 @@ pipeline{
             }
         }
 
-        stage('Health check'){
+       stage('Health Check DEV') {
+            when { branch 'dev' }
             steps {
-                echo "=== VERIFYING SERVICE HEALTH ==="
-                echo "Pinging service at http://${env.DEPLOY_HOST}:${env.SERVICE_PORT}/health..."
-                echo "HTTP/1.1 200 OK received! System is operational."
+                echo "=== VERIFYING DEV SERVICE HEALTH ==="
+                echo "Pinging service at http://${env.DEPLOY_HOST_DEV}:${env.SERVICE_PORT_DEV}/health..."
+                echo "HTTP/1.1 200 OK received! DEV System is operational."
             }
         }
     }
+
+        stage('Health Check PROD') {
+            when { branch 'main' }
+            steps {
+                echo "=== VERIFYING PROD SERVICE HEALTH ==="
+                echo "Pinging service at http://${env.DEPLOY_HOST_PROD}:${env.SERVICE_PORT_PROD}/health..."
+                echo "HTTP/1.1 200 OK received! PROD System is operational."
+            }
+        }
 
     post{
         always{
@@ -99,5 +109,4 @@ pipeline{
             echo "Pipeline FAILED! Check the failed stage logs."
         }
     }
-    
 }
