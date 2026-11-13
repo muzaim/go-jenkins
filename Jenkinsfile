@@ -13,7 +13,7 @@ pipeline{
     }
 
     stages{
-        stage{
+        stage('Quality & Security Check'){
             parallel{
                 stage('Code Quality (Format & Vet)'){
                     steps{
