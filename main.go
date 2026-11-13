@@ -23,6 +23,7 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/health", HealthCheckHandler)
+	fmt.Println("Test aja")
 	fmt.Println("Server running on :8081...")
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }
